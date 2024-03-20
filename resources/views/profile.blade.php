@@ -13,5 +13,11 @@
             <li><strong>Email:</strong> {{ $user->email }}</li>
             <li><strong>Rol:</strong> {{ $user->is_admin ? 'Administrador' : 'Usuario' }}</li>
         </ul>
+<!-- Boton temporal -->
+        <a href="{{ route('admin.users') }}">Ver usuarios</a>
+
+
+        
+
     </div>
 @endsection

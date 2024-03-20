@@ -25,9 +25,12 @@ Route::get('/login', function () {
 
 Route::post('/login', [UserController::class, 'login'])->name('login');
 
-Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
-    Route::get('/users', [AdminController::class, 'showUsers']);
-    Route::post('/user/add', [AdminController::class, 'addUser']);
-    Route::post('/user/{id}/edit', [AdminController::class, 'editUser']);
-    Route::delete('/user/{id}/delete', [AdminController::class, 'deleteUser']);
+// Rutas para el panel de administración
+Route::prefix('admin')->middleware(['auth'])->group(function () {
+    Route::get('/users', [AdminController::class, 'showUsers'])->name('admin.users');
+    Route::get('/user/add', [AdminController::class, 'showAddUserForm'])->name('admin.user.add.form');
+    Route::post('/user/add', [AdminController::class, 'addUser'])->name('admin.user.add');
+    Route::get('/user/{id}/edit', [AdminController::class, 'editUserForm'])->name('admin.user.edit.form');
+    Route::patch('/user/{id}/edit', [AdminController::class, 'editUser'])->name('admin.user.edit');
+    Route::delete('/user/{id}/delete', [AdminController::class, 'deleteUser'])->name('admin.user.delete');
 });

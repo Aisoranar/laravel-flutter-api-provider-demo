@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <h1>Lista de Usuarios</h1>
-        <a href="{{ url("/admin/user/add") }}" class="btn btn-success mb-3">Agregar Usuario</a>
+        <a href="{{ route("admin.user.add.form") }}" class="btn btn-success mb-3">Agregar Usuario</a>
         <table class="table">
             <!-- Encabezados de la tabla -->
             <thead>
@@ -30,8 +30,8 @@
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->is_admin ? 'Administrador' : 'Usuario' }}</td>
                     <td>
-                        <a href="{{ url("/admin/user/{$user->id}/edit") }}" class="btn btn-primary">Editar</a>
-                        <form action="{{ url("/admin/user/{$user->id}/delete") }}" method="POST" style="display: inline-block;">
+                        <a href="{{ route("admin.user.edit.form", $user->id) }}" class="btn btn-primary">Editar</a>
+                        <form action="{{ route("admin.user.delete", $user->id) }}" method="POST" style="display: inline-block;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?')">Eliminar</button>
