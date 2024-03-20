@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-use App\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -36,5 +34,21 @@ class UserController extends Controller
 
     public function post(Request $request)
     {
+        // Lógica para realizar una publicación
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            // Si las credenciales son válidas, redirigir al usuario a su perfil
+            return redirect('/profile');
+        } else {
+            // Si las credenciales no son válidas, redirigir de nuevo al formulario de inicio de sesión con un mensaje de error
+            return back()->withErrors([
+                'email' => 'Las credenciales proporcionadas no son válidas.',
+            ]);
+        }
     }
 }

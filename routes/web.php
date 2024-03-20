@@ -23,7 +23,9 @@ Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 
-Route::post('/login', [UserController::class, 'login']);
+
+Route::post('/login', [UserController::class, 'login'])->name('login');
+
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/users', [AdminController::class, 'showUsers']);

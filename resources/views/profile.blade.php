@@ -7,7 +7,7 @@
             <li><strong>Nombres:</strong> {{ $user->first_name }}</li>
             <li><strong>Apellidos:</strong> {{ $user->last_name }}</li>
             <li><strong>Fecha de nacimiento:</strong> {{ $user->birthdate }}</li>
-            <li><strong>Edad:</strong> {{ $user->birthdate->diffInYears(now()) }}</li>
+            <li><strong>Edad:</strong> {{ \Carbon\Carbon::parse($user->birthdate)->diffInYears(\Carbon\Carbon::now()) }}</li>
             <li><strong>Username:</strong> {{ $user->username }}</li>
             <li><strong>Email:</strong> {{ $user->email }}</li>
         </ul>
