@@ -1,3 +1,4 @@
+<!-- resources/views/profile.blade.php -->
 @extends('layouts.app')
 
 @section('content')
@@ -10,6 +11,7 @@
             <li><strong>Edad:</strong> {{ \Carbon\Carbon::parse($user->birthdate)->diffInYears(\Carbon\Carbon::now()) }}</li>
             <li><strong>Username:</strong> {{ $user->username }}</li>
             <li><strong>Email:</strong> {{ $user->email }}</li>
+            <li><strong>Rol:</strong> {{ $user->is_admin ? 'Administrador' : 'Usuario' }}</li>
         </ul>
     </div>
 @endsection
