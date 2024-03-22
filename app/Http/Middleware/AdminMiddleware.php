@@ -7,13 +7,6 @@ use Illuminate\Http\Request;
 
 class AdminMiddleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
-     */
     public function handle(Request $request, Closure $next)
     {
         // Verificar si el usuario actual es un administrador
