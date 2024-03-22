@@ -13,4 +13,10 @@ class Post extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    // Añadir un método para obtener el nombre del usuario que creó la publicación
+    public function getUserNameAttribute()
+    {
+        return $this->user->name;
+    }
 }

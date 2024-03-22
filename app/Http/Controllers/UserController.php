@@ -9,6 +9,7 @@ use App\Models\Post;
 
 class UserController extends Controller
 {
+    // Método para registrar un nuevo usuario
     public function register(Request $request)
     {
         $validatedData = $request->validate([
@@ -27,17 +28,38 @@ class UserController extends Controller
         return redirect('/login')->with('success', 'Usuario registrado correctamente');
     }
 
+    // Método para mostrar el perfil del usuario
     public function profile()
     {
         $user = Auth::user();
         return view('profile', compact('user'));
     }
 
+    // Método para crear una nueva publicación
     public function post(Request $request)
     {
-        // Lógica para realizar una publicación
+        // Validar los datos del formulario
+        $validatedData = $request->validate([
+            'content' => 'required|string|max:255',
+        ]);
+
+        // Obtener al usuario actual
+        $user = Auth::user();
+
+        // Crear una nueva publicación asociada al usuario actual
+        $post = new Post([
+            'content' => $validatedData['content'],
+            'approved' => $user->is_admin ? true : false, // Marcar como aprobada si es administrador
+        ]);
+
+        // Guardar la publicación
+        $user->posts()->save($post);
+
+        // Redirigir al panel de control con un mensaje
+        return redirect()->route('dashboard')->with('success', 'Publicación creada correctamente' . ($user->is_admin ? '.' : '. Debe ser aprobada por el administrador.'));
     }
 
+    // Método para iniciar sesión
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -53,37 +75,27 @@ class UserController extends Controller
         }
     }
 
+    // Método para mostrar el panel de control del usuario
     public function dashboard()
     {
-        // Obtener las publicaciones aprobadas del usuario actual
+        // Obtener al usuario actual
         $user = Auth::user();
-        $posts = Post::where('user_id', $user->id)
-                     ->where('approved', true)
-                     ->get();
+
+        // Obtener las publicaciones aprobadas del usuario actual
+        $userPosts = $user->posts()->where('approved', true)->get();
         
-        // Obtener las publicaciones pendientes de aprobación
+        // Obtener las publicaciones pendientes de aprobación del usuario actual
         $pendingPosts = Post::where('user_id', $user->id)
                             ->where('approved', false)
                             ->get();
 
-        return view('dashboard', compact('posts', 'pendingPosts'));
-    }
+        // Obtener todas las publicaciones globales, excluyendo las propias si es administrador
+        $globalPostsQuery = Post::where('approved', true);
+        if (!$user->is_admin) {
+            $globalPostsQuery->where('user_id', '!=', $user->id);
+        }
+        $globalPosts = $globalPostsQuery->get();
 
-    public function createPost(Request $request)
-    {
-        // Validar los datos del formulario
-        $validatedData = $request->validate([
-            'content' => 'required|string|max:255',
-        ]);
-
-        // Crear una nueva publicación asociada al usuario actual
-        $user = Auth::user();
-        $post = new Post([
-            'content' => $validatedData['content'],
-            'approved' => false, // Por defecto, las publicaciones no están aprobadas
-        ]);
-        $user->posts()->save($post);
-
-        return redirect()->route('dashboard')->with('success', 'Publicación creada correctamente. Debe ser aprobada por el administrador.');
+        return view('dashboard', compact('userPosts', 'pendingPosts', 'globalPosts'));
     }
 }

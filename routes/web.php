@@ -44,3 +44,4 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 });
 
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('/post', [UserController::class, 'post'])->name('post');

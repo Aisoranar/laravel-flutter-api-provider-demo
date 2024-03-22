@@ -6,6 +6,8 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <!-- Si 'app.css' no es el nombre de tu archivo compilado, cámbialo al nombre correcto -->
+    <!-- Agregar FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-L9nwsIxYRlH5TkkvzZ6/3JlfAGioNjsaaN7f0FtdePryVHTj3hT78umt7kP9fpv8" crossorigin="anonymous">
 </head>
 <body>
     @if(Auth::check()) <!-- Verifica si el usuario ha iniciado sesión -->
