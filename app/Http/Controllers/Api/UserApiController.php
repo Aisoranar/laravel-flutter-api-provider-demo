@@ -46,7 +46,7 @@ class UserApiController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            $token = $user->createToken('auth_token')->plainTextToken;
+            $token = $user->createToken('auth_token')->accessToken;
             return response()->json(['token' => $token], 200);
         } else {
             return response()->json(['message' => 'Unauthorized'], 401);
