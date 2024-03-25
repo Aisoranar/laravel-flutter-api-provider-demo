@@ -11,8 +11,8 @@ use App\Http\Controllers\Api\UserApiController;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
+| routes are loaded by the RouteServiceProvider and are assigned the "api"
+| middleware group. Enjoy building your API!
 |
 */
 
@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // Routes for AdminApiController
-Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function () {
+Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
     Route::get('/users', [AdminApiController::class, 'getUsers']);
     Route::get('/users/{id}', [AdminApiController::class, 'getUserById']);
     Route::delete('/users/{id}', [AdminApiController::class, 'deleteUserById']);
@@ -32,7 +32,7 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function ()
 });
 
 // Routes for UserApiController
-Route::prefix('user')->middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum')->prefix('user')->group(function () {
     Route::get('/profile', [UserApiController::class, 'profile']);
     Route::post('/post', [UserApiController::class, 'createPost']);
     Route::get('/posts', [UserApiController::class, 'getUserPosts']);
