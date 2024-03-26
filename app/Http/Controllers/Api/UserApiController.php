@@ -107,8 +107,26 @@ class UserApiController extends Controller
      */
     public function getUserPosts()
     {
-        $user = Auth::user();
-        $userPosts = $user->posts;
-        return response()->json(['posts' => $userPosts], 200);
+        try {
+            // Verificar si el usuario está autenticado
+            $user = Auth::user();
+            if (!$user) {
+                return response()->json(['message' => 'Unauthorized'], 401);
+            }
+
+            // Obtener los posts del usuario autenticado
+            $userPosts = $user->posts;
+
+            // Verificar si se encontraron posts
+            if ($userPosts->isEmpty()) {
+                return response()->json(['message' => 'No posts found for this user'], 404);
+            }
+
+            // Devolver los posts del usuario
+            return response()->json(['posts' => $userPosts], 200);
+        } catch (\Exception $e) {
+            // Capturar y manejar errores
+            return response()->json(['message' => 'Failed to load user posts', 'error' => $e->getMessage()], 500);
+        }
     }
 }
