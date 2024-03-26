@@ -6,6 +6,7 @@
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-4xl font-semibold text-gray-800">Perfil de Usuario</h1>
         <div>
+            
             @if($user->is_admin) <!-- Verifica si el usuario es administrador -->
                 <a href="{{ route('admin.users') }}" class="text-gray-800 hover:text-indigo-700">Ver otros usuarios</a>
                 <a href="{{ route('admin.posts.pending') }}" class="text-gray-800 hover:text-indigo-700 ml-4">Ver publicaciones pendientes</a>

@@ -20,12 +20,10 @@ Route::prefix('admin')->group(function () {
 Route::prefix('user')->group(function () {
     Route::get('/profile', [UserApiController::class, 'profile']);
     Route::post('/post', [UserApiController::class, 'createPost']);
-    Route::get('/posts', [UserController::class, 'getUserPosts']); // Obtener todas las publicaciones del usuario
-    Route::get('/all-posts', [UserController::class, 'getAllUserPosts']); // Obtener todas las publicaciones del usuario (incluidas las pendientes de aprobación)
-
-    // Si deseas habilitar esta ruta, puedes descomentarla
-    // Route::get('/posts', [UserApiController::class, 'getUserPosts']);
+    Route::get('/posts', [UserApiController::class, 'getUserPosts']); // Obtener todas las publicaciones del usuario
+    Route::get('/all-posts', [UserApiController::class, 'getAllUserPosts']); // Obtener todas las publicaciones del usuario (incluidas las pendientes de aprobación)
 });
+
 
 // Rutas de autenticación y registro para usuarios
 Route::post('/register', [UserApiController::class, 'register']);
